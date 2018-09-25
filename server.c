@@ -5,7 +5,7 @@ int main()
   int port = 10001; // starting port number
   int retries = 100; // number of retries before failure
 
-  while(retries --)
+  while(retries --) // try to start server 100 times
   {
     if(!run_server(port))
     {

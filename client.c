@@ -2,9 +2,9 @@
 
 int main(int argc, char* argv[])
 {
-  int port = atoi(argv[1]); // ACSII to Integer
+  int port = atoi(argv[1]); // ACSII to integer
 
-  // Error check the terminal command.
+  // error check the terminal command
   if(argc < 2)
   {
     printf("Give port as command line argument.\n");
@@ -22,17 +22,17 @@ int main(int argc, char* argv[])
   {
     char buff[4096];
 
-    // Read a string
+    // read a string
     printf("Gimme a string:\n");
     fgets(buff, 4096, stdin);
 
     int len = strlen(buff);
     buff[len-1]=0; // -1 to remove trailing '\n'
 
-    // Send the string.
+    // send the string
     sendMessage(&info, buff);
 
-    // Receive the string
+    // receive the string
     char* msg = recieveMessage(&info);
 
     if(msg == NULL)
@@ -41,8 +41,8 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-    printf("%s\n", msg);
-    dealocate_message(msg);
+    printf("%s\n", msg); // print the server response message
+    dealocate_message(msg); // free (deallocate) message memory
   }
 
   return 2; // shouldn't ever run
