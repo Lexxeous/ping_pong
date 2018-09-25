@@ -2,18 +2,8 @@
 
 int main()
 {
-
-  // char* bob = malloc(23); // 
-  // int bob_len2 = strlen(bob);  
-  // int bob_len1 = (sizeof(bob)/sizeof(bob[0])) - 1;
-  // int bob_len3 = sizeof(bob);
-  // printf("%d \n",bob_len2);
-  // printf("%d \n",bob_len1);
-  // printf("%d \n",bob_len3);
-
-
-  int port = 10001;
-  int retries = 100;
+  int port = 10001; // starting port number
+  int retries = 100; // number of retries before failure
 
   while(retries --)
   {
@@ -22,12 +12,12 @@ int main()
       printf("Server running on port %i.\n", port);
       while(1)
       {
-        sleep(10);
+        sleep(10); // number of seconds of wait time before retry
       }
     }
     else
     {
-      port ++;
+      port ++; // increment port number if failure on previous port
     }
   }
   printf("Failed to start server.\n");

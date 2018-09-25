@@ -1,41 +1,41 @@
 #include "pingpong.h"
 
-const int GLOB_BUF_LEN = 4096;
+const int GLOB_BUF_LEN = 4096; // global variable to allocate different amounts of chars
 
 int sendMessage(struct ConnectionInfo* con, char* msg)
 {
-	if(con == NULL || msg == NULL)
+	if(con == NULL || msg == NULL) // dont allow empty structs or messages
 	{
 		return 1;
 	}
 
-	send(con->socket, msg, strlen(msg), 0);
+	send(con->socket, msg, strlen(msg), 0); // send the message
 
-	return 0;
+	return 0; // return successfully
 }
 
 //------------------------------------------------------------------------------------------
 
 char* recieveMessage(struct ConnectionInfo* con)
 {
-	char* buffer = (char*)malloc(GLOB_BUF_LEN);
-	memset(buffer, '\0', GLOB_BUF_LEN); // Clear the buffer.
+	char* buffer = (char*)malloc(GLOB_BUF_LEN); // allocate message memory
+	memset(buffer, '\0', GLOB_BUF_LEN); // clear the buffer.
 
-	if(con == NULL)
+	if(con == NULL) // dont allow empty struct
 	{
 		return 1;
 	}
 
-	recv(con->socket, buffer, GLOB_BUF_LEN, 0);
+	recv(con->socket, buffer, GLOB_BUF_LEN, 0); // receive the message
 
-	return buffer;
+	return buffer; // return what was sent
 }
  
 //------------------------------------------------------------------------------------------
 
 void dealocate_message(char* mem)
 {
-	free(mem);
+	free(mem); // free (deallocate) message memory
 }
  
 //------------------------------------------------------------------------------------------
@@ -60,13 +60,13 @@ int connect_to_server(char* who, int port, struct ConnectionInfo* con)
 	}
 	
 	// Create the client socket.
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) 
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) // create socket with IPv4 and stream configuration
 	{
 		printf("Socket error.\n");
 		return 1;
 	}
 	
-	memset((void*) &server_addr, 0, sizeof(server_addr)); // Clear the server address structure.
+	memset((void*) &server_addr, 0, sizeof(server_addr)); // clear the server address structure.
 	
 	// Set up the server address structure.
 	server_addr.sin_family = AF_INET;
@@ -81,7 +81,7 @@ int connect_to_server(char* who, int port, struct ConnectionInfo* con)
 
 	con->socket = sockfd;
 
-	return 0;
+	return 0; // return successfully
 }
  
 //------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ int run_server(int port)
 		return 1;
 	}
 	
-	memset((void*) &server_addr, 0, sizeof(server_addr)); // Clear the server address structure.
+	memset((void*) &server_addr, 0, sizeof(server_addr)); // clear the server address structure.
 	
 	// Set up the server address structure.
 	server_addr.sin_family = AF_INET;
@@ -137,24 +137,25 @@ int run_server(int port)
 	while(1)
 	{
 		char* msg;
-		char* buffer = (char*)malloc(GLOB_BUF_LEN); // 
-		memset(buffer, '\0', GLOB_BUF_LEN); // Clear the buffer.
+		char* buffer = (char*)malloc(GLOB_BUF_LEN); // allocate message memory
+		memset(buffer, '\0', GLOB_BUF_LEN); // clear the buffer.
 
+		// Set up ConnectionInfo structure for the server
 		con.socket = newsockfd;
 		con.buf = buffer;
 		con.buf_length = GLOB_BUF_LEN;
 
 		msg = recieveMessage(&con);
 
-		if(!strcmp(msg, "ping") || !strcmp(msg, "PING"))
+		if(!strcmp(msg, "ping")) // if clent sends "ping"
 		{
-			sendMessage(&con, "pong");
+			sendMessage(&con, "pong"); // server responds with "pong"
 		}
-		else
+		else // for every other string
 		{
-			sendMessage(&con, msg);
+			sendMessage(&con, msg); // server responds with what was sent
 		}
-		dealocate_message(msg);
+		dealocate_message(msg); // free (deallocate) message memory
 	}
 
 	return 0; // shouldnt ever run

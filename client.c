@@ -22,17 +22,17 @@ int main(int argc, char* argv[])
   {
     char buff[4096];
 
-    // read a string
+    // Read a string
     printf("Gimme a string:\n");
     fgets(buff, 4096, stdin);
 
     int len = strlen(buff);
-    buff[len-1]=0;//-1 to remove trailing '\n'
+    buff[len-1]=0; // -1 to remove trailing '\n'
 
-    // send the string.
+    // Send the string.
     sendMessage(&info, buff);
 
-    // recieve the string
+    // Receive the string
     char* msg = recieveMessage(&info);
 
     if(msg == NULL)
