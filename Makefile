@@ -1,3 +1,7 @@
+# set default varibles
+port?=10001
+tcp_port?=10001
+
 run_s: server
 	./server # run server executable
 
@@ -12,4 +16,18 @@ client:
 
 clean:
 	rm server client # delete executables
+
+pid:
+	lsof -i tcp:$(tcp_port)
+
+pids:
+	lsof -i tcp:10001
+	lsof -i tcp:10002
+	lsof -i tcp:10003
+
+kill_s:
+	kill `pgrep server`
+
+kill_c:
+	kill `pgrep client`
 

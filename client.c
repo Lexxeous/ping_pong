@@ -1,5 +1,7 @@
 #include "pingpong.h"
 
+const int CLI_BUF_LEN = 4096; // global variable to allocate different amounts of chars
+
 int main(int argc, char* argv[])
 {
   int port = atoi(argv[1]); // ACSII to integer
@@ -20,11 +22,11 @@ int main(int argc, char* argv[])
 
   while(1)
   {
-    char buff[4096];
+    char buff[CLI_BUF_LEN];
 
     // read a string
     printf("Gimme a string:\n");
-    fgets(buff, 4096, stdin);
+    fgets(buff, CLI_BUF_LEN, stdin);
 
     int len = strlen(buff);
     buff[len-1]=0; // -1 to remove trailing '\n'
@@ -33,11 +35,11 @@ int main(int argc, char* argv[])
     sendMessage(&info, buff);
 
     // receive the string
-    char* msg = recieveMessage(&info);
+    char* msg = receiveMessage(&info);
 
     if(msg == NULL)
     {
-      printf("Failed to recieve message.\n");
+      printf("Failed to receive message.\n");
       return 1;
     }
 

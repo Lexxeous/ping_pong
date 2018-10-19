@@ -33,19 +33,19 @@ int sendMessage(struct ConnectionInfo* con, char* msg);
 // This return value is null if an error has occurred. 
 // Otherwise the returned value is a null terminated string that contains the entire message and thus must be able to hold a large amount of data (more than a few kilobytes) and is most easily accomplished by using the heap to allocate the memory. 
 // This memory should not be modified by any further actions in the client library before dealocate_message is called on the returned value.
-char* recieveMessage(struct ConnectionInfo* con);
+char* receiveMessage(struct ConnectionInfo* con);
 
 
-// This function will deallocate the memory returned by recieveMessage. 
+// This function will deallocate the memory returned by receiveMessage. 
 // This may be as simple as a wrapper to Cs free function or C++s delete. 
-// If the value passed in mem did not come from recieveMessage then the results are undefined.
+// If the value passed in mem did not come from receiveMessage then the results are undefined.
 void dealocate_message(char* mem);
 
 
 // This function will connect to a server and initilize the con data structure so that it can be used in future calls to sendMessage.
 // Param "who" is the name of the host as a null terminated ASCII string.
 // Param "port" is the port the server is running on.
-// Param "con" will contain after this call, if it is successful, the required information to be used in the sendMessage and recieveMessage functions.
+// Param "con" will contain after this call, if it is successful, the required information to be used in the sendMessage and receiveMessage functions.
 // If the connection attempt was successful 0 is returned. If the connection attempt was unsuccessful then a non 0 value is returned. 
 // Param "who" or "con" being null is a sufficient condition for failure. 
 // In the event of a failure the state of the system and the arguments is such that another attempt can be made, for instance with a new port number.

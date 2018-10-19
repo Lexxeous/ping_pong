@@ -16,14 +16,14 @@ int sendMessage(struct ConnectionInfo* con, char* msg)
 
 //------------------------------------------------------------------------------------------
 
-char* recieveMessage(struct ConnectionInfo* con)
+char* receiveMessage(struct ConnectionInfo* con)
 {
 	char* buffer = (char*)malloc(GLOB_BUF_LEN); // allocate message memory
 	memset(buffer, '\0', GLOB_BUF_LEN); // clear the buffer
 
 	if(con == NULL) // dont allow empty struct
 	{
-		return 1;
+		return "Error: Connection info is NULL.\n";
 	}
 
 	recv(con->socket, buffer, GLOB_BUF_LEN, 0); // receive the message
@@ -145,7 +145,7 @@ int run_server(int port)
 		con.buf = buffer;
 		con.buf_length = GLOB_BUF_LEN;
 
-		msg = recieveMessage(&con);
+		msg = receiveMessage(&con);
 
 		if(!strcmp(msg, "ping")) // if clent sends "ping"
 		{
