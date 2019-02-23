@@ -1,4 +1,4 @@
-#include "pingpong.h"
+#include "ping_pong.h"
 
 const int CLI_BUF_LEN = 4096; // global variable to allocate different amounts of chars
 
